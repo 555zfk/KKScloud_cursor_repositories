@@ -1,0 +1,27 @@
+---
+description: 本工作区调用终端（Shell）的强制规则——必须带 all 权限，否则命令无法执行
+alwaysApply: true
+---
+
+# 终端调用规则（本工作区强制）
+
+本工作区的沙箱会拦截普通终端命令，导致 Shell 调用「返回不了退出状态 / 命令实际未执行」。
+因此，**所有 Shell 工具调用都必须带上 `required_permissions: ["all"]`**。
+
+## 必须遵守
+
+- 任何 `Shell` 调用一律设置 `required_permissions: ["all"]`，无论命令是否只读。
+- 若曾出现「The shell command returned no exit status」，几乎都是漏带该权限所致——
+  补上 `required_permissions: ["all"]` 后重试，不要反复无权限重试，也不要据此判断终端环境损坏。
+- 长时间命令（打包、构建等）正常带 `["all"]` 即可，配合合适的 `block_until_ms`。
+
+## 示例
+
+调用 `Shell` 时的参数应包含：
+
+```json
+{
+  "command": "python build.py",
+  "required_permissions": ["all"]
+}
+```

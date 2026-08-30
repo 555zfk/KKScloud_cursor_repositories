@@ -1,0 +1,4 @@
+# Keep these local-only; do not publish to the cloud repo.
+.cursor/skills/技术文档撰写规范/
+.cursor/skills/图号批量改名/
+.cursor/plans/
